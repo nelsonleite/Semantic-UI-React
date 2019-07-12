@@ -103,6 +103,9 @@ export default class Dropdown extends Component {
     /** Initial value of searchQuery. */
     defaultSearchQuery: PropTypes.string,
 
+    /** Whether or not the dropdown should start with the first item selected */
+    defaultSelectFirst: PropTypes.bool,
+
     /** Currently selected label in multi-select. */
     defaultSelectedLabel: customPropTypes.every([
       customPropTypes.demand(['multiple']),
@@ -364,6 +367,7 @@ export default class Dropdown extends Component {
     closeOnBlur: true,
     closeOnEscape: true,
     deburr: false,
+    defaultSelectFirst: true,
     icon: 'dropdown',
     minCharacters: 1,
     noResultsMessage: 'No results found.',
@@ -920,7 +924,7 @@ export default class Dropdown extends Component {
     optionsProps = this.props.options,
     searchQuery = this.state.searchQuery,
   ) => {
-    const { multiple } = this.props
+    const { defaultSelectFirst, multiple } = this.props
     const { selectedIndex } = this.state
     const options = this.getMenuOptions(value, optionsProps, searchQuery)
     const enabledIndicies = this.getEnabledIndices(options)
@@ -951,7 +955,7 @@ export default class Dropdown extends Component {
       newSelectedIndex = _.includes(enabledIndicies, activeIndex) ? activeIndex : undefined
     }
 
-    if (!newSelectedIndex || newSelectedIndex < 0) {
+    if (defaultSelectFirst && (!newSelectedIndex || newSelectedIndex < 0)) {
       newSelectedIndex = enabledIndicies[0]
     }
 
@@ -1183,7 +1187,7 @@ export default class Dropdown extends Component {
   // ----------------------------------------
 
   renderText = () => {
-    const { multiple, placeholder, search, text } = this.props
+    const { defaultSelectFirst, multiple, placeholder, search, text } = this.props
     const { searchQuery, value, open } = this.state
     const hasValue = this.hasValue()
 
@@ -1193,13 +1197,13 @@ export default class Dropdown extends Component {
       search && searchQuery && 'filtered',
     )
     let _text = placeholder
-    
+
     if (text) {
       _text = text
-    } else if (open && !multiple) {
-      _text = _.get(this.getSelectedItem(), 'text')
     } else if (hasValue) {
       _text = _.get(this.getItemByValue(value), 'text')
+    } else if (open && !multiple) {
+      _text = defaultSelectFirst ? _.get(this.getSelectedItem(), 'text') : _text
     }
 
     return (

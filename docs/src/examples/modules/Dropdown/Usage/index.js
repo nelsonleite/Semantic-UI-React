@@ -36,6 +36,12 @@ const DropdownUsageExamples = () => (
       description='A dropdown can choose whether or not to change the value when navigating the menu with arrow keys.'
       examplePath='modules/Dropdown/Usage/DropdownExampleSelectOnNavigation'
     />
+
+    <ComponentExample
+      title='First Item Default Selected'
+      description='A dropdown can choose whether or not to have the first value selected by default.'
+      examplePath='modules/Dropdown/Usage/DropdownExampleDefaultSelectFirst'
+    />
     <ComponentExample
       title='Controlled'
       description='A dropdown can behave like an controlled input.'

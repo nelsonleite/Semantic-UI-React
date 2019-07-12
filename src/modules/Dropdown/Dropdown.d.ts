@@ -67,6 +67,9 @@ export interface StrictDropdownProps {
   /** Initial value of searchQuery. */
   defaultSearchQuery?: string
 
+  /** Whether or not the dropdown should start with the first item selected */
+  defaultSelectFirst?: boolean
+
   /** Currently selected label in multi-select. */
   defaultSelectedLabel?: number | string
 
